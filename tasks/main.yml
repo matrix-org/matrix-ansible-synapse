@@ -1,0 +1,9 @@
+---
+- name: deploy synapse
+  import_tasks: deployment.yml
+
+- name: configure synapse
+  import_tasks: configure.yml
+
+- name: configure service
+  import_tasks: systemd.yml
