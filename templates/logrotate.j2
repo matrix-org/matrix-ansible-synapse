@@ -1,0 +1,9 @@
+/var/log/matrix_synapse/matrix_synapse.log {
+    daily
+    rotate {{ matrix_synapse_log_days_keep }}
+    compress
+    shred
+    postrotate
+      /usr/bin/pkill -HUP rsyslogd
+    endscript
+}
