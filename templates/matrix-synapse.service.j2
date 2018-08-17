@@ -9,10 +9,8 @@ ExecStop=/opt/synapse/env/bin/synctl stop /opt/synapse/homeserver.yaml
 User=synapse
 Group=synapse
 Restart=always
-StandardOut=syslog
-SyslogIdentifier=matrix-synapse
-SyslogFacility=local3
+StandardOutput=syslog
+SyslogIdentifier=matrix_synapse
 
 [Install]
 WantedBy=default.target
-
