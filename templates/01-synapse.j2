@@ -1,4 +1,5 @@
 #!/bin/bash
+{{ ansible_managed | comment }}
 mkdir -p /opt/synapse/ssl/
 chown synapse:synapse /opt/synapse/ssl
 cp /etc/letsencrypt/live/{{ matrix_synapse_domain }}/fullchain.pem /opt/synapse/ssl/{{ matrix_synapse_domain }}.crt
