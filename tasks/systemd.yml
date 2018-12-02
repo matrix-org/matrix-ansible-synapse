@@ -1,7 +1,7 @@
 ---
 - name: Deploy service file
-  template:
-    src: "matrix-synapse.service.j2"
+  file:
+    src: "matrix-synapse.service"
     dest: "/etc/systemd/system/matrix-synapse.service"
   notify:
     - "reload systemd"

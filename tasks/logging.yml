@@ -19,8 +19,8 @@
     dest: /etc/logrotate.d/matrix_synapse
 
 - name: Deploy log config
-  template:
-    src: "log.config.j2"
+  file:
+    src: "log.config"
     dest: "/opt/synapse/log.config"
     owner: synapse
     group: synapse
