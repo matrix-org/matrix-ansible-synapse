@@ -10,16 +10,6 @@
     - uploads
     - ssl
 
-- name: Create signing key
-  shell: /opt/synapse/env/bin/python -c "from signedjson import key; file = open('/opt/synapse/ssl/{{ matrix_synapse_domain}}.signing.key','w'); key.write_signing_keys(file, [key.generate_signing_key('first')]); file.close()"
-  args:
-    creates: /opt/synapse/ssl/{{ matrix_synapse_domain }}.signing.key
-  become: true
-  become_user: synapse
-  notify:
-    - "restart synapse"
-
-
 - name: Deploy config
   template:
     src: "homeserver.yaml.j2"
@@ -32,11 +22,19 @@
 - name: Configure logging
   import_tasks: logging.yml
 
+- name: Create signing key
+  shell: >
+    /opt/synapse/env/bin/python -c "
+    from signedjson import key;
+    with open('/opt/synapse/ssl/{{ matrix_synapse_domain}}.signing.key','w') as file:
+      key.write_signing_keys(file, [key.generate_signing_key('first')]);
+    "
   args:
-    creates: /opt/synapse/ssl/{{ matrix_synapse_domain }}.dh
-    chdir: /opt/synapse
-  become_user: synapse
+    creates: /opt/synapse/ssl/{{ matrix_synapse_domain }}.signing.key
   become: true
+  become_user: synapse
+  notify:
+    - "restart synapse"
 
 - name: Use letsencrypt certificate
   include_tasks: letsencrypt.yml
