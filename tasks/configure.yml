@@ -1,24 +1,14 @@
 ---
 - name: Create directory for media storage
   file:
-    name: /opt/synapse/media_store
+    name: "/opt/synapse/{{ item }}"
     state: directory
     owner: synapse
     group: synapse
-
-- name: Create directory for uploads
-  file:
-    name: /opt/synapse/uploads
-    state: directory
-    owner: synapse
-    group: synapse
-
-- name: Create directory for SSL files
-  file:
-    name: /opt/synapse/ssl
-    state: directory
-    owner: synapse
-    group: synapse
+  loop:
+    - media_store
+    - uploads
+    - ssl
 
 - name: Create signing key
   shell: /opt/synapse/env/bin/python -c "from signedjson import key; file = open('/opt/synapse/ssl/{{ matrix_synapse_domain}}.signing.key','w'); key.write_signing_keys(file, [key.generate_signing_key('first')]); file.close()"
