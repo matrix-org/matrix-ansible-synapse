@@ -31,28 +31,13 @@
 
 - name: Configure logging
   import_tasks: logging.yml
-- name: ensure hook directory available
-  file:
-    name: /etc/letsencrypt/renewal-hooks/deploy/
-    state: directory
 
-- name: template ssl post-renewal copier into place
-  template:
-    src: 01-synapse.j2
-    dest: /etc/letsencrypt/renewal-hooks/deploy/01-synapse
-    mode: 0700
-  register: ssl_renewal
-
-- name: run post-renewal copier
-  command: /etc/letsencrypt/renewal-hooks/deploy/01-synapse
-  when: ssl_renewal.changed
-  tags:
-    - skip_ansible_lint # because of the when clause
-
-- name: create DH parameters
-  command: openssl dhparam -out ssl/{{ matrix_synapse_domain }}.dh 2048
   args:
     creates: /opt/synapse/ssl/{{ matrix_synapse_domain }}.dh
     chdir: /opt/synapse
   become_user: synapse
   become: true
+
+- name: Use letsencrypt certificate
+  include_tasks: letsencrypt.yml
+  when: not skip_letsencrypt
