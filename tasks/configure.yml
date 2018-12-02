@@ -29,33 +29,6 @@
   notify:
     - "restart synapse"
 
-- name: create logging folder
-  file:
-    name: /var/log/synapse/
-    state: directory
-    owner: synapse
-    group: synapse
-
-- name: copy syslog config
-  copy:
-    src: matrix_synapse.conf
-    dest: /etc/rsyslog.d/matrix_synapse.conf
-    owner: root
-  notify: restart rsyslog
-
-- name: template logrotate config
-  template:
-    src: logrotate.j2
-    dest: /etc/logrotate.d/matrix_synapse
-
-- name: Deploy log config
-  template:
-    src: "log.config.j2"
-    dest: "/opt/synapse/log.config"
-    owner: synapse
-    group: synapse
-  notify:
-    - "restart synapse"
 
 - name: Deploy config
   template:
@@ -66,6 +39,8 @@
   notify:
     - "restart synapse"
 
+- name: Configure logging
+  import_tasks: logging.yml
 - name: ensure hook directory available
   file:
     name: /etc/letsencrypt/renewal-hooks/deploy/
