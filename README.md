@@ -6,26 +6,51 @@ Install a matrix synapse server.
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The following should be present on the target system
+* `pip`
+* `systemd`
+* `rsyslogd`
+* `logrotate`
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+__Default vars__
+| Name | Value |
+| :--- | :---  |
+| matrix_synapse_tls_path | "/opt/synapse/ssl/{{ matrix_synapse_domain }}.crt" |
+| matrix_synapse_key_path | "/opt/synapse/ssl/{{ matrix_synapse_domain }}.key"
+| matrix_synapse_dh_path | "/opt/synapse/ssl/{{ matrix_synapse_domain }}.dh"
+| matrix_synapse_server_name | "{{ matrix_synapse_domain }}"
+| matrix_synapse_baseurl | "https://{{ matrix_synapse_domain }}"
+| matrix_synapse_port_prefix | 100
+| matrix_synapse_pg_pass | "{{ matrix_pg_pass }}"
+| matrix_synapse_pg_user | "{{ matrix_pg_user }}"
+| matrix_synapse_pg_db | "{{ matrix_pg_db }}"
+| matrix_synapse_pg_host | "{{ matrix_pg_host }}"
+| matrix_synapse_log_config | "/opt/synapse/{{ matrix_synapse_domain }}.log.config"
+| matrix_synapse_media_store_path | "/opt/synapse/media_store"
+| matrix_synapse_uploads_path | "/opt/synapse/uploads"
+| matrix_synapse_turn_secret | "{{ matrix_turn_secret }}"
+| matrix_synapse_turn_uri | "{{ matrix_turn_uri }}"
+| matrix_synapse_registration_secret | "{{ matrix_registration_secret }}"
+| matrix_synapse_macaroon_secret_key | "{{ matrix_macaroon_key }}"
+| matrix_synapse_signing_key_path | "/opt/synapse/ssl/{{ matrix_synapse_domain }}.signing.key"
+| matrix_synapse_version | "v0.28.1"
+| matrix_synapse_log_days_keep | 30
+| matrix_synapse_skip_ssl | false
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+__None__.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+#TODO: Add example
+```
 
 License
 -------
@@ -35,4 +60,6 @@ Apache 2.0
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+* Michael Kaye
+* Jan Christian Grünhage
+* Emmanouil Kampitakis
