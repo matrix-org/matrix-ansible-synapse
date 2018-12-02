@@ -17,22 +17,22 @@
 
 - name: Install dependencies
   apt:
-    name: "{{ item }}"
+    name:
+      - build-essential
+      - python2.7-dev
+      - libffi-dev
+      - python-pip
+      - python-setuptools
+      - sqlite3
+      - libssl-dev
+      - python-virtualenv
+      - libjpeg-dev
+      - libxslt1-dev
+      - git
+      - libpq-dev
     state: present
-  with_items:
-    - build-essential
-    - python2.7-dev
-    - libffi-dev
-    - python-pip
-    - python-setuptools
-    - sqlite3
-    - libssl-dev
-    - python-virtualenv
-    - libjpeg-dev
-    - libxslt1-dev
-    - git
-    - libpq-dev
-  tags:
+    cache_valid_time: 1800
+ tags:
     - pre_install
 
 - name: Create virtualenv
