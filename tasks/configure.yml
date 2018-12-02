@@ -37,5 +37,5 @@
     - "restart synapse"
 
 - name: Use letsencrypt certificate
-  include_tasks: letsencrypt.yml
-  when: not skip_letsencrypt
+  include_tasks: ssl.yml
+  when: not matrix_synapse_skip_ssl
