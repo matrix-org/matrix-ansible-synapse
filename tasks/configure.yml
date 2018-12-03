@@ -22,20 +22,6 @@
 - name: Configure logging
   import_tasks: logging.yml
 
-- name: Create signing key
-  shell: >
-    /opt/synapse/env/bin/python -c "
-    from signedjson import key;
-    with open('/opt/synapse/ssl/{{ matrix_synapse_domain}}.signing.key','w') as file:
-      key.write_signing_keys(file, [key.generate_signing_key('first')]);
-    "
-  args:
-    creates: /opt/synapse/ssl/{{ matrix_synapse_domain }}.signing.key
-  become: true
-  become_user: synapse
-  notify:
-    - "restart synapse"
-
 - name: Create certificates
   include_tasks: ssl.yml
   when: not matrix_synapse_skip_ssl
