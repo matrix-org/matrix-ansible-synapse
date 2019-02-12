@@ -10,6 +10,14 @@
     - uploads
     - ssl
 
+- name: Generate registration secret
+  block:
+    - command: /usr/bin/pwgen -sn 84 1
+      register: pwgen
+    - set_fact:
+        matrix_synapse_registration_secret: "{{ pwgen.stdout }}"
+  when: matrix_synapse_registration_secret is not defined
+
 - name: Deploy config
   template:
     src: "homeserver.yaml.j2"
