@@ -23,5 +23,4 @@
   import_tasks: logging.yml
 
 - name: Create certificates
-  include_tasks: ssl.yml
-  when: not matrix_synapse_skip_ssl
+  include_tasks: crypto.yml

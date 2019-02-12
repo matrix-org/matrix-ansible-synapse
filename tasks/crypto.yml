@@ -3,11 +3,11 @@
   shell: >
     /opt/synapse/env/bin/python -c "
     from signedjson import key;
-    with open('/opt/synapse/ssl/{{ matrix_synapse_domain}}.signing.key','w') as file:
+    with open('{{ matrix_synapse_signing_key_path }}','w') as file:
       key.write_signing_keys(file, [key.generate_signing_key('first')]);
     "
   args:
-    creates: /opt/synapse/ssl/{{ matrix_synapse_domain }}.signing.key
+    creates: "{{ matrix_synapse_signing_key_path }}" 
   become: true
   become_user: synapse
   notify:
@@ -15,6 +15,6 @@
 
 - name: create DH parameters
   openssl_dhparam:
-    path: "/opt/synapse/ssl/{{ matrix_synapse_domain }}.dh"
+    path: "{{ matrix_synapse_dh_path }}"
     owner: synapse
 
