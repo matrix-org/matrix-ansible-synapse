@@ -34,4 +34,4 @@
         owner: synapse
         group: synapse
         mode: "0600"
-  when: not matrix_synapse_skip_ssl
+  when: not matrix_synapse_skip_tls
