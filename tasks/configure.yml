@@ -19,8 +19,8 @@
   when: matrix_synapse_registration_secret is not defined
 
 - name: Deploy config
-  template:
-    src: "homeserver.yaml.j2"
+  copy:
+    content: "{{ matrix_synapse_config | to_nice_yaml }}"
     dest: "/opt/synapse/homeserver.yaml"
     owner: synapse
     group: synapse
