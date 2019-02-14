@@ -1,5 +1,6 @@
 ---
-matrix_synapse_config: 
+matrix_synapse_config: "{{ matrix_synapse_base_config | combine(matrix_synapse_extra_config, recursive=true) }}"
+matrix_synapse_base_config: 
   server_name: "{{ matrix_server_name }}"
   tls_certificate_path: "{{ matrix_synapse_tls_cert }}"
   tls_private_key_path: "{{ matrix_synapse_tls_key }}"
@@ -9,9 +10,9 @@ matrix_synapse_config:
     port: 80
     bind_addresses: ['::', '0.0.0.0']
     reprovision_threshold: 30
-  no_tls: "{{ matrix_synapse_skip_ssl }}" 
+  no_tls: "{{ matrix_synapse_skip_tls }}" 
   tls_fingerprints: []
-  pid_file: "{{ matrix_synapse_pid_file }}"
+  pid_file: "/opt/synapse/synapse.pid"
   soft_file_limit: 0
   use_presence: true
   listeners:
@@ -56,7 +57,7 @@ matrix_synapse_config:
   federation_rc_concurrent: 3
   media_store_path: /opt/synapse/media_store 
   uploads_path: "/uploads"
-  max_upload_size: "{{ matrix_synapse_max_upload_size }}"
+  max_upload_size: "23M"
   max_image_pixels: "32M"
   dynamic_thumbnails: false
   thumbnail_sizes:

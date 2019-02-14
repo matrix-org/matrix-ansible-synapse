@@ -17,39 +17,32 @@ The following should be present on the target system
 | Name | Type | Description |
 | :--- | :--- | :--- |
 | **matrix_server_name** | __string__ | |
-| **matrix_synapse_tls_cert** | __string__ | server's TLS certificate chain |
-| **matrix_synapse_tls_key** | __string__ | server's TLS key |
+| **matrix_synapse_tls_cert** | __string__ | server's TLS certificate chain (_when matrix_synapse_skip_tls not set_)|
+| **matrix_synapse_tls_key** | __string__ | server's TLS key (_when matrix_synapse_skip_tls not set_)|
 | **matrix_synapse_report_stats** | __bool__ | Report the stats to matrix.org |
+| **matrix_synapse_pg_host** | __sting__ | postgresql server |
+| **matrix_synapse_pg_user** | __string__ | postgresql user |
+| **matrix_synapse_pg_pass** | __string__ | postgresql user's password |
+| **matrix_synapse_pg_db** | __string__ | postgresql database |
+| **matrix_synapse_macaroon_secret_key** | __string__ | matrix's macaroon key (make sure not to change it!) |
 
 ### Optional Variables
 
-| Name | Value |
-| :--- | :---  |
-| matrix_synapse_tls_cert_path | "/opt/synapse/tls/{{ matrix_server_name }}.crt" |
+| Name | Value | Description |
+| :--- | :--- | :---  |
+| matrix_synapse_extra_config | _None_ | configuration parameters as given in the [synapse configuration file](https://github.com/matrix-org/synapse/tree/master/docs) | 
+| matrix_synapse_tls_cert_path  | "/opt/synapse/tls/{{ matrix_server_name }}.crt" |
 | matrix_synapse_tls_key_path | "/opt/synapse/tls/{{ matrix_server_name }}.key" |
 | matrix_synapse_dh_path | "/opt/synapse/tls/{{ matrix_server_name }}.dh" |
-| matrix_synapse_server_name | "{{ matrix_server_name }}" |
 | matrix_synapse_baseurl | "https://{{ matrix_server_name }}" |
-| matrix_synapse_pg_pass | "{{ matrix_pg_pass }}" | 
-| matrix_synapse_pg_user | "{{ matrix_pg_user }}" |
-| matrix_synapse_pg_db | "{{ matrix_pg_db }}" |
-| matrix_synapse_pg_host | "{{ matrix_pg_host }}" |
-| matrix_synapse_log_config | "/opt/synapse/{{ matrix_server_name }}.log.config" |
 | matrix_synapse_media_store_path | "/opt/synapse/media_store" |
 | matrix_synapse_uploads_path | "/opt/synapse/uploads" |
-| matrix_synapse_turn_secret | "{{ matrix_turn_secret }}" |
-| matrix_synapse_turn_uri | "{{ matrix_turn_uri }}" |
 | matrix_synapse_registration_secret | "{{ matrix_registration_secret }}" |
-| matrix_synapse_macaroon_secret_key | "{{ matrix_macaroon_key }}" |
 | matrix_synapse_signing_key_path | "/opt/synapse/ssl/{{ matrix_server_name }}.signing.key" |
-| matrix_synapse_version | "v0.34.1.1" |
+| matrix_synapse_version | "v0.99.1.1" |
 | matrix_synapse_log_days_keep | 30 |
-| matrix_synapse_skip_ssl | false |
-| matrix_synapse_pid_file | /opt/synapse/synapse.pid |
-| matrix_synapse_manhole | false |
-| matrix_synapse_max_upload_size | 23M |
-| matrix_synapse_url_preview_enabled | true |
-| matrix_sybapse_registration_secret | __randomly generated__ |
+| matrix_synapse_skip_tls | false |
+| matrix_synapse_registration_secret | _randomly generated_ |
 
 ## Dependencies
 
