@@ -1,14 +1,4 @@
 ---
-- name: Create directory for media storage
-  file:
-    name: "/opt/synapse/{{ item }}"
-    state: directory
-    owner: synapse
-    group: synapse
-  loop:
-    - media_store
-    - uploads
-    - ssl
 
 - name: Generate registration secret
   block:
@@ -17,6 +7,17 @@
     - set_fact:
         matrix_synapse_registration_secret: "{{ pwgen.stdout }}"
   when: matrix_synapse_registration_secret is not defined
+
+- name: Create directory for media storage
+  file:
+    name: "{{ item }}"
+    state: directory
+    owner: synapse
+    group: synapse
+  loop:
+    - "{{ matrix_synapse_config.media_store_path }}"
+    - "{{ matrix_synapse_config.uploads_path }}"
+    - /opt/synapse/tls 
 
 - name: Deploy config
   copy:
