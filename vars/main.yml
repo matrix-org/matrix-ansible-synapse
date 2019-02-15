@@ -1,9 +1,8 @@
 ---
-matrix_synapse_config: "{{ matrix_synapse_base_config | combine(matrix_synapse_extra_config, recursive=true) }}"
-matrix_synapse_base_config: 
+matrix_synapse_config: 
   server_name: "{{ matrix_server_name }}"
-  tls_certificate_path: "{{ matrix_synapse_tls_cert }}"
-  tls_private_key_path: "{{ matrix_synapse_tls_key }}"
+  tls_certificate_path: "{{ matrix_synapse_skip_tls | ternary(None,matrix_synapse_tls_cert) }}"
+  tls_private_key_path: "{{ matrix_synapse_skip_tls | ternary(None,matrix_synapse_tls_key) }}"
   acme:
     enabled: false 
     url: https://acme-v01.api.letsencrypt.org/directory
@@ -21,7 +20,7 @@ matrix_synapse_base_config:
         - '::'
         - '0.0.0.0'
       type: http
-      tls: true 
+      tls: "{{ not matrix_synapse_skip_tls }}" 
       x_forwarded: false
       resources:
         - names: [client]
@@ -56,7 +55,7 @@ matrix_synapse_base_config:
   federation_rc_reject_limit: 50
   federation_rc_concurrent: 3
   media_store_path: /opt/synapse/media_store 
-  uploads_path: "/uploads"
+  uploads_path: /opt/synapse/uploads
   max_upload_size: "23M"
   max_image_pixels: "32M"
   dynamic_thumbnails: false
@@ -115,7 +114,6 @@ matrix_synapse_base_config:
   track_appservice_user_ips: False
   macaroon_secret_key: "{{ matrix_synapse_macaroon_secret_key }}"
   expire_access_token: False
-  form_secret: "{{ matrix_synapse_form_secret }}"
   signing_key_path: "{{ matrix_synapse_signing_key_path }}"
   old_signing_keys: {}
   key_refresh_interval: "1d" # 1 Day.
