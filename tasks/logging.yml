@@ -19,7 +19,7 @@
     dest: /etc/logrotate.d/matrix_synapse
 
 - name: Deploy log config
-  file:
+  copy:
     src: "log.config"
     dest: "/opt/synapse/log.config"
     owner: synapse

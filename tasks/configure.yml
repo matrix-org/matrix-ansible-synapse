@@ -1,5 +1,4 @@
 ---
-
 - name: Generate registration secret
   block:
     - command: /usr/bin/pwgen -sn 84 1

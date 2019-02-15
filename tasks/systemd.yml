@@ -1,6 +1,6 @@
 ---
 - name: Deploy service file
-  file:
+  copy:
     src: "matrix-synapse.service"
     dest: "/etc/systemd/system/matrix-synapse.service"
   notify:
