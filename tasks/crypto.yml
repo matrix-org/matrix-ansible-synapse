@@ -11,7 +11,7 @@
   become: true
   become_user: synapse
   notify:
-    - "restart synapse"
+    - "restart matrix-synapse"
 
 - name: create DH parameters
   openssl_dhparam:

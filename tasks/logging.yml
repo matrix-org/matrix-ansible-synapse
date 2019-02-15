@@ -25,6 +25,6 @@
     owner: synapse
     group: synapse
   notify:
-    - "restart synapse"
+    - "restart matrix-synapse"
 
 

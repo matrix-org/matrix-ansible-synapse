@@ -28,7 +28,7 @@
     owner: synapse
     group: synapse
   notify:
-    - "restart synapse"
+    - "restart matrix-synapse"
 
 - name: Configure logging
   import_tasks: logging.yml
