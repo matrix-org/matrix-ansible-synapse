@@ -1,0 +1,13 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian/stretch64"
+
+  config.vm.network "forwarded_port", guest: 8008, host: 8008
+  config.vm.network "forwarded_port", guest: 8448, host: 8448
+
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "test.yml"
+  end
+end
