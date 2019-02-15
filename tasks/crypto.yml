@@ -1,15 +1,11 @@
 ---
+- name: Install singedjson
+  pip:
+    name: signedjson
+
 - name: Create signing key
-  shell: >
-    /opt/synapse/env/bin/python -c "
-    from signedjson import key;
-    with open('{{ matrix_synapse_signing_key_path }}','w') as file:
-      key.write_signing_keys(file, [key.generate_signing_key('first')]);
-    "
-  args:
-    creates: "{{ matrix_synapse_signing_key_path }}" 
-  become: true
-  become_user: synapse
+  matrix_signing_key:
+    path: "{{ matrix_synapse_signing_key_path }}" 
   notify:
     - "restart matrix-synapse"
 
