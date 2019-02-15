@@ -32,7 +32,7 @@
       - libpq-dev
     state: present
     cache_valid_time: 1800
- tags:
+  tags:
     - pre_install
 
 - name: Create virtualenv
