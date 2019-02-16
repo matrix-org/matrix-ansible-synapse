@@ -2,12 +2,24 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "debian/stretch64"
+  config.vm.define "pip" do |pip| 
+    pip.vm.box = "debian/stretch64"
 
-  config.vm.network "forwarded_port", guest: 8008, host: 8008
-  config.vm.network "forwarded_port", guest: 8448, host: 8448
+    pip.vm.network "forwarded_port", guest: 8008, host: 8008
+    pip.vm.network "forwarded_port", guest: 8448, host: 8448
 
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "test.yml"
+    pip.vm.provision "ansible" do |ansible|
+      ansible.playbook = "test-pip.yml"
+    end
+  end
+  config.vm.define "docker" do |docker| 
+    docker.vm.box = "debian/stretch64"
+
+    docker.vm.network "forwarded_port", guest: 8008, host: 8009
+    docker.vm.network "forwarded_port", guest: 8448, host: 8449
+
+    docker.vm.provision "ansible" do |ansible|
+      ansible.playbook = "test-docker.yml"
+    end
   end
 end

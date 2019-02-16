@@ -12,6 +12,7 @@
 - name: create DH parameters
   openssl_dhparam:
     path: "{{ matrix_synapse_dh_path }}"
+    size: 2048
     owner: synapse
 
 - name: Write server's certificate and private key

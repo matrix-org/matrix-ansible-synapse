@@ -8,6 +8,23 @@
     - set_fact:
         matrix_synapse_registration_secret: "{{ pwgen.stdout }}"
   when: matrix_synapse_registration_secret is not defined
+  
+- name: create user
+  user:
+    name: synapse
+    state: present
+  register: synapse_user
+  tags:
+    - pre_install
+
+- name: create directory
+  file:
+    name: /opt/synapse
+    state: directory
+    owner: synapse
+    group: synapse
+  tags:
+    - pre_install
 
 - name: Create directory for media storage
   file:
@@ -31,6 +48,8 @@
 
 - name: Configure logging
   import_tasks: logging.yml
+  when: matrix_synapse_supervision_method == "systemd"
+  # TODO: Figure out how to make sure that logging ends up in rsyslog no matter what system we run on
 
 - name: Create certificates
   include_tasks: crypto.yml

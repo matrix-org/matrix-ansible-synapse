@@ -43,6 +43,10 @@ The following should be present on the target system
 | matrix_synapse_log_days_keep | 30 |
 | matrix_synapse_skip_tls | false |
 | matrix_synapse_registration_secret | _randomly generated_ |
+| matrix_synapse_deployment_method | pip | Either pip or docker [¹](#footnote_1) |
+| matrix_synapse_supervision_method | systemd | Either systemd, runit or docker [¹](#footnote_1) |
+
+<a name="footnote_1">¹</a>: Docker must be used for both or neither deployment and supervision
 
 ## Dependencies
 
