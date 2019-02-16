@@ -1,5 +1,6 @@
 ---
-matrix_synapse_config: 
+matrix_synapse_config: "{{ matrix_synapse_base_config | combine(matrix_synapse_extra_config, recursive=True) }}"
+matrix_synapse_base_config:
   server_name: "{{ matrix_server_name }}"
   tls_certificate_path: "{{ matrix_synapse_skip_tls | ternary(None,matrix_synapse_tls_cert) }}"
   tls_private_key_path: "{{ matrix_synapse_skip_tls | ternary(None,matrix_synapse_tls_key) }}"
