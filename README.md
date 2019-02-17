@@ -25,6 +25,7 @@ The following should be present on the target system
 | **matrix_synapse_pg_pass** | __string__ | postgresql user's password |
 | **matrix_synapse_pg_db** | __string__ | postgresql database |
 | **matrix_synapse_macaroon_secret_key** | __string__ | matrix's macaroon key (make sure not to change it!) |
+| **matrix_synapse_registration_secret** | __string__ | matrix's registration secret |
 
 ### Optional Variables
 
@@ -33,11 +34,9 @@ The following should be present on the target system
 | matrix_synapse_extra_config | _None_ | configuration parameters as given in the [synapse configuration file](https://github.com/matrix-org/synapse/tree/master/docs) | 
 | matrix_synapse_dh_path | "/opt/synapse/tls/{{ matrix_server_name }}.dh" |
 | matrix_synapse_baseurl | "https://{{ matrix_server_name }}" |
-| matrix_synapse_registration_secret | "{{ matrix_registration_secret }}" |
 | matrix_synapse_signing_key_path | "/opt/synapse/ssl/{{ matrix_server_name }}.signing.key" |
 | matrix_synapse_version | "v0.99.1.1" |
 | matrix_synapse_log_days_keep | 30 |
-| matrix_synapse_registration_secret | _randomly generated_ |
 
 ## Dependencies
 
