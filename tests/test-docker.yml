@@ -1,0 +1,37 @@
+---
+- hosts: all
+  become: true
+  vars:
+    dbname: synapse
+    dbuser: synapse_user
+    dbpw: synapse_password
+    matrix_synapse_deployment_method: docker
+    matrix_synapse_supervision_method: docker
+  roles:
+    - role: geerlingguy.pip
+      pip_install_packages:
+        - name: docker
+    - role: geerlingguy.docker
+    - role: geerlingguy.postgresql
+      postgresql_databases:
+        - name: "{{ dbname }}"
+      postgresql_users:
+        - name: "{{ dbuser }}"
+          password: "{{ dbpw }}"
+      postgresql_global_config_options:
+        - option: listen_addresses
+          value: "172.17.0.1"
+      postgresql_hba_entries:
+        - { type: local, database: all, user: all, auth_method: trust }
+        - { type: host, database: "{{ dbname }}", user: "{{ dbuser }}", address: "172.17.0.1/16", auth_method: md5 }
+    - role: matrix-ansible-synapse
+      matrix_server_name: localhost
+      matrix_synapse_report_stats: false
+      matrix_synapse_pg_host: 172.17.0.1
+      matrix_synapse_pg_user: "{{ dbuser }}"
+      matrix_synapse_pg_pass: "{{ dbpw }}"
+      matrix_synapse_pg_db: "{{ dbname }}"
+      matrix_synapse_macaroon_secret_key: "THIS_IS_TOTALLY_SECRET_1337_L33T_HaxXxOR"
+      matrix_synapse_registration_secret: "waewi7Joolae8Pahh1eePhaeJubairieFuhoorie3h"
+      matrix_synapse_extra_config:
+        no_tls: true

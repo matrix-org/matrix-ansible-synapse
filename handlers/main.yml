@@ -3,14 +3,25 @@
   systemd:
     daemon_reload: yes
 
-- name: "restart matrix-synapse"
+- name: "restart matrix-synapse using systemd"
   service:
     name: "matrix-synapse"
     state: restarted
     enabled: yes
+  when: matrix_synapse_supervision_method == "systemd"
+  listen: "restart matrix-synapse"
+
+- name: "restart synapse using docker"
+  docker_container:
+    name: synapse
+    state: started
+    restart: yes
+  when: matrix_synapse_supervision_method == "docker"
+  listen: "restart matrix-synapse"
 
 - name: restart rsyslog
   become: yes
   service:
     name: rsyslog
     state: restarted
+  when: matrix_synapse_supervision_method == "systemd"

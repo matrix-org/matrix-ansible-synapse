@@ -6,12 +6,16 @@
     dbuser: synapse_user
     dbpw: synapse_password
   roles:
+    - role: geerlingguy.pip
     - role: geerlingguy.postgresql
       postgresql_databases:
-        - name: "{{ dbname }}" 
+        - name: "{{ dbname }}"
       postgresql_users:
-        - name: "{{ dbuser }}" 
+        - name: "{{ dbuser }}"
           password: "{{ dbpw }}"
+      postgresql_global_config_options:
+        - option: listen_address
+          value: "*"
     - role: matrix-ansible-synapse
       matrix_server_name: localhost
       matrix_synapse_report_stats: false
