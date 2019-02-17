@@ -33,8 +33,6 @@ The following should be present on the target system
 | matrix_synapse_extra_config | _None_ | configuration parameters as given in the [synapse configuration file](https://github.com/matrix-org/synapse/tree/master/docs) | 
 | matrix_synapse_dh_path | "/opt/synapse/tls/{{ matrix_server_name }}.dh" |
 | matrix_synapse_baseurl | "https://{{ matrix_server_name }}" |
-| matrix_synapse_media_store_path | "/opt/synapse/media_store" |
-| matrix_synapse_uploads_path | "/opt/synapse/uploads" |
 | matrix_synapse_registration_secret | "{{ matrix_registration_secret }}" |
 | matrix_synapse_signing_key_path | "/opt/synapse/ssl/{{ matrix_server_name }}.signing.key" |
 | matrix_synapse_version | "v0.99.1.1" |
