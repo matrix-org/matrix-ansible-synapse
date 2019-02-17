@@ -31,8 +31,6 @@ The following should be present on the target system
 | Name | Value | Description |
 | :--- | :--- | :---  |
 | matrix_synapse_extra_config | _None_ | configuration parameters as given in the [synapse configuration file](https://github.com/matrix-org/synapse/tree/master/docs) | 
-| matrix_synapse_tls_cert_path  | "/opt/synapse/tls/{{ matrix_server_name }}.crt" |
-| matrix_synapse_tls_key_path | "/opt/synapse/tls/{{ matrix_server_name }}.key" |
 | matrix_synapse_dh_path | "/opt/synapse/tls/{{ matrix_server_name }}.dh" |
 | matrix_synapse_baseurl | "https://{{ matrix_server_name }}" |
 | matrix_synapse_media_store_path | "/opt/synapse/media_store" |

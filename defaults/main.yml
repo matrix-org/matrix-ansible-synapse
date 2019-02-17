@@ -1,7 +1,5 @@
 ---
 matrix_synapse_extra_config: {}
-matrix_synapse_tls_cert_path: "/opt/synapse/tls/{{ matrix_server_name }}.crt"
-matrix_synapse_tls_key_path: "/opt/synapse/tls/{{ matrix_server_name }}.key"
 matrix_synapse_dh_path: "/opt/synapse/tls/{{ matrix_server_name }}.dh"
 matrix_synapse_baseurl: "https://{{ matrix_server_name }}"
 matrix_synapse_signing_key_path: "/opt/synapse/tls/{{ matrix_server_name }}.signing.key"
