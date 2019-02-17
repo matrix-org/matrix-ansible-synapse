@@ -9,14 +9,14 @@
     matrix_synapse_supervision_method: docker
   roles:
     - role: geerlingguy.pip
-      pip_install_packages: 
+      pip_install_packages:
         - name: docker
     - role: geerlingguy.docker
     - role: geerlingguy.postgresql
       postgresql_databases:
-        - name: "{{ dbname }}" 
+        - name: "{{ dbname }}"
       postgresql_users:
-        - name: "{{ dbuser }}" 
+        - name: "{{ dbuser }}"
           password: "{{ dbpw }}"
       postgresql_global_config_options:
         - option: listen_addresses

@@ -25,7 +25,7 @@
   loop:
     - "{{ matrix_synapse_config.media_store_path }}"
     - "{{ matrix_synapse_config.uploads_path }}"
-    - /opt/synapse/tls 
+    - /opt/synapse/tls
 
 - name: Deploy config
   copy:

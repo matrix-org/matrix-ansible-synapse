@@ -9,9 +9,9 @@
     - role: geerlingguy.pip
     - role: geerlingguy.postgresql
       postgresql_databases:
-        - name: "{{ dbname }}" 
+        - name: "{{ dbname }}"
       postgresql_users:
-        - name: "{{ dbuser }}" 
+        - name: "{{ dbuser }}"
           password: "{{ dbpw }}"
       postgresql_global_config_options:
         - option: listen_address

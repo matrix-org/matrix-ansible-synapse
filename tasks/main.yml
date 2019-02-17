@@ -3,7 +3,7 @@
   fail:
     msg: "Either both or neither of deployment and supervision method should be docker."
   when: (matrix_synapse_supervision_method == "docker" and matrix_synapse_deployment_method != "docker") or (matrix_synapse_deployment_method == "docker" and matrix_synapse_supervision_method != "docker")
-  
+
 - name: configure synapse
   import_tasks: configure.yml
 
