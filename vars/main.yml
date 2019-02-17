@@ -29,7 +29,9 @@ matrix_synapse_config:
           compress: false
     - port: 8008
       tls: false
-      bind_addresses: ['::', '0.0.0.0']
+      bind_addresses:
+        - '::'
+        - '0.0.0.0'
       type: http
       x_forwarded: false
       resources:
