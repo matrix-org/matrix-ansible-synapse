@@ -39,7 +39,6 @@ The following should be present on the target system
 | matrix_synapse_signing_key_path | "/opt/synapse/ssl/{{ matrix_server_name }}.signing.key" |
 | matrix_synapse_version | "v0.99.1.1" |
 | matrix_synapse_log_days_keep | 30 |
-| matrix_synapse_skip_tls | false |
 | matrix_synapse_registration_secret | _randomly generated_ |
 
 ## Dependencies

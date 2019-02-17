@@ -30,4 +30,4 @@
         owner: synapse
         group: synapse
         mode: "0600"
-  when: not matrix_synapse_skip_tls
+  when: not matrix_synapse_config.no_tls

@@ -9,7 +9,7 @@ matrix_synapse_config:
     port: 80
     bind_addresses: ['::', '0.0.0.0']
     reprovision_threshold: 30
-  no_tls: "{{ matrix_synapse_skip_tls }}" 
+  no_tls: false
   tls_fingerprints: []
   pid_file: "/opt/synapse/synapse.pid"
   soft_file_limit: 0
@@ -20,7 +20,7 @@ matrix_synapse_config:
         - '::'
         - '0.0.0.0'
       type: http
-      tls: "{{ not matrix_synapse_skip_tls }}" 
+      tls: true
       x_forwarded: false
       resources:
         - names: [client]
