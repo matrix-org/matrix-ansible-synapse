@@ -9,13 +9,12 @@
   notify:
     - "restart matrix-synapse"
 
-- name: create DH parameters
-  openssl_dhparam:
-    path: "{{ matrix_synapse_dh_path }}"
-    owner: synapse
-
 - name: Write server's certificate and private key
   block:
+    - name: create DH parameters
+      openssl_dhparam:
+        path: "{{ matrix_synapse_dh_path }}"
+        owner: synapse
     - name: Write certificate
       copy:
         content: "{{ matrix_synapse_tls_cert }}"
