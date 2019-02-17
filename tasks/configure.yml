@@ -1,14 +1,4 @@
 ---
-- name: Generate registration secret
-  block:
-    - command: /usr/bin/pwgen -sn 84 1
-      register: pwgen
-      delegate_to: localhost
-      become: false
-    - set_fact:
-        matrix_synapse_registration_secret: "{{ pwgen.stdout }}"
-  when: matrix_synapse_registration_secret is not defined
-  
 - name: create user
   user:
     name: synapse

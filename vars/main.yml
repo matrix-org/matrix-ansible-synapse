@@ -2,15 +2,15 @@
 matrix_synapse_config: "{{ matrix_synapse_base_config | combine(matrix_synapse_extra_config, recursive=True) }}"
 matrix_synapse_base_config:
   server_name: "{{ matrix_server_name }}"
-  tls_certificate_path: "{{ matrix_synapse_skip_tls | ternary(None,matrix_synapse_tls_cert) }}"
-  tls_private_key_path: "{{ matrix_synapse_skip_tls | ternary(None,matrix_synapse_tls_key) }}"
+  tls_certificate_path: "/opt/synapse/tls/{{ matrix_server_name }}.crt"
+  tls_private_key_path: "/opt/synapse/tls/{{ matrix_server_name }}.key"
   acme:
     enabled: false 
     url: https://acme-v01.api.letsencrypt.org/directory
     port: 80
     bind_addresses: ['::', '0.0.0.0']
     reprovision_threshold: 30
-  no_tls: "{{ matrix_synapse_skip_tls }}" 
+  no_tls: false
   tls_fingerprints: []
   pid_file: "/opt/synapse/synapse.pid"
   soft_file_limit: 0
@@ -21,7 +21,7 @@ matrix_synapse_base_config:
         - '::'
         - '0.0.0.0'
       type: http
-      tls: "{{ not matrix_synapse_skip_tls }}" 
+      tls: true
       x_forwarded: false
       resources:
         - names: [client]
@@ -30,7 +30,9 @@ matrix_synapse_base_config:
           compress: false
     - port: 8008
       tls: false
-      bind_addresses: ['::', '0.0.0.0']
+      bind_addresses:
+        - '::'
+        - '0.0.0.0'
       type: http
       x_forwarded: false
       resources:
