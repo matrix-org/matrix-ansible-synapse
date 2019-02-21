@@ -32,9 +32,9 @@ The following should be present on the target system
 | matrix_synapse_base_path | "/opt/synapse" | _This is not yet consistently used. **DO NOT RELY ON IT**. Lookout for future releases_
 | matrix_synapse_secrets_path | "{{ matrix_synapse_base_path }}/secrets"
 | matrix_synapse_extra_config | _None_ | configuration parameters as given in the [synapse configuration file](https://github.com/matrix-org/synapse/tree/master/docs) | 
-| matrix_synapse_dh_path | "/opt/synapse/tls/{{ matrix_server_name }}.dh" |
+| matrix_synapse_dh_path | "{{ matrix_synapse_base_path }}/tls/{{ matrix_server_name }}.dh" |
 | matrix_synapse_baseurl | "https://{{ matrix_server_name }}" |
-| matrix_synapse_signing_key_path | "/opt/synapse/ssl/{{ matrix_server_name }}.signing.key" |
+| matrix_synapse_signing_key_path | "{{ matrix_synapse_base_path }}/ssl/{{ matrix_server_name }}.signing.key" |
 | matrix_synapse_version | "v0.99.1.1" |
 | matrix_synapse_log_days_keep | 30 |
 | matrix_synapse_deployment_method | pip | Either pip or docker [¹](#footnote_1) |

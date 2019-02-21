@@ -14,7 +14,7 @@
         - name: "{{ dbuser }}"
           password: "{{ dbpw }}"
       postgresql_global_config_options:
-        - option: listen_address
+        - option: listen_addresses
           value: "*"
     - role: matrix-ansible-synapse
       matrix_server_name: localhost

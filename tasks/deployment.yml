@@ -29,7 +29,7 @@
           - lxml
           - psycopg2-binary
           - mock
-        virtualenv: /opt/synapse/env
+        virtualenv: "{{ matrix_synapse_base_path }}/env"
         virtualenv_python: python2.7
         extra_args: --upgrade
       tags:
@@ -38,7 +38,7 @@
     - name: Clone synapse
       git:
         repo: https://github.com/matrix-org/synapse
-        dest: /opt/synapse/synapse
+        dest: "{{ matrix_synapse_base_path }}/synapse"
         accept_hostkey: yes
         version: "{{ matrix_synapse_version }}"
       register: clone_synapse
@@ -47,8 +47,8 @@
 
     - name: Install Synapse
       pip:
-        name: /opt/synapse/synapse
-        virtualenv: /opt/synapse/env
+        name: "{{ matrix_synapse_base_path }}/synapse"
+        virtualenv: "{{ matrix_synapse_base_path }}/env"
         virtualenv_python: python2.7
       when: clone_synapse.changed
       tags:
@@ -68,11 +68,11 @@
       - "-m"
       - "synapse.app.homeserver"
       - "-c"
-      - "/opt/synapse/homeserver.yaml"
+      - "{{ matrix_synapse_base_path }}/homeserver.yaml"
     user: "{{ synapse_user.uid }}:{{ synapse_user.group }}"
     volumes:
       - "{{ matrix_synapse_config.media_store_path }}:{{ matrix_synapse_config.media_store_path }}"
       - "{{ matrix_synapse_config.uploads_path }}:{{ matrix_synapse_config.uploads_path }}"
-      - "/opt/synapse/homeserver.yaml:/opt/synapse/homeserver.yaml"
-      - "/opt/synapse/tls:/opt/synapse/tls"
+      - "{{ matrix_synapse_base_path }}/homeserver.yaml:{{ matrix_synapse_base_path }}/homeserver.yaml"
+      - "{{ matrix_synapse_base_path }}/tls:{{ matrix_synapse_base_path }}/tls"
   when: matrix_synapse_deployment_method == "docker"

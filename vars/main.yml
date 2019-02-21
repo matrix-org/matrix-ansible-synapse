@@ -2,8 +2,8 @@
 matrix_synapse_config: "{{ matrix_synapse_base_config | combine(matrix_synapse_extra_config, recursive=True) }}"
 matrix_synapse_base_config:
   server_name: "{{ matrix_server_name }}"
-  tls_certificate_path: "/opt/synapse/tls/{{ matrix_server_name }}.crt"
-  tls_private_key_path: "/opt/synapse/tls/{{ matrix_server_name }}.key"
+  tls_certificate_path: "{{ matrix_synapse_base_path }}/tls/{{ matrix_server_name }}.crt"
+  tls_private_key_path: "{{ matrix_synapse_base_path }}/tls/{{ matrix_server_name }}.key"
   acme:
     enabled: false 
     url: https://acme-v01.api.letsencrypt.org/directory
@@ -12,7 +12,7 @@ matrix_synapse_base_config:
     reprovision_threshold: 30
   no_tls: false
   tls_fingerprints: []
-  pid_file: "/opt/synapse/synapse.pid"
+  pid_file: "{{ matrix_synapse_base_path }}/synapse.pid"
   soft_file_limit: 0
   use_presence: true
   listeners:
@@ -57,8 +57,8 @@ matrix_synapse_base_config:
   federation_rc_sleep_delay: 500
   federation_rc_reject_limit: 50
   federation_rc_concurrent: 3
-  media_store_path: /opt/synapse/media_store 
-  uploads_path: /opt/synapse/uploads
+  media_store_path: "{{ matrix_synapse_base_path }}/media_store"
+  uploads_path: "{{ matrix_synapse_base_path }}/uploads"
   max_upload_size: "23M"
   max_image_pixels: "32M"
   dynamic_thumbnails: false
