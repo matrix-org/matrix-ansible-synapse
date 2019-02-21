@@ -2,6 +2,8 @@
 matrix_synapse_extra_config: {}
 matrix_synapse_deployment_method: pip
 matrix_synapse_supervision_method: systemd
+matrix_synapse_base_path: "/opt/synapse"
+matrix_synapse_secrets_path: "{{ matrix_synapse_base_path }}/secrets"
 matrix_synapse_dh_path: "/opt/synapse/tls/{{ matrix_server_name }}.dh"
 matrix_synapse_baseurl: "https://{{ matrix_server_name }}"
 matrix_synapse_signing_key_path: "/opt/synapse/tls/{{ matrix_server_name }}.signing.key"
