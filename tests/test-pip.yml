@@ -23,7 +23,5 @@
       matrix_synapse_pg_user: "{{ dbuser }}"
       matrix_synapse_pg_pass: "{{ dbpw }}"
       matrix_synapse_pg_db: "{{ dbname }}"
-      matrix_synapse_macaroon_secret_key: "THIS_IS_TOTALLY_SECRET_1337_L33T_HaxXxOR"
-      matrix_synapse_registration_secret: "ahphae6shuighahxaf9weeBahHieCh8woo6agh6UGh"
       matrix_synapse_extra_config:
         no_tls: true
