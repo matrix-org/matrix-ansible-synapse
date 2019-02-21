@@ -4,12 +4,12 @@ matrix_synapse_deployment_method: pip
 matrix_synapse_supervision_method: systemd
 matrix_synapse_base_path: "/opt/synapse"
 matrix_synapse_secrets_path: "{{ matrix_synapse_base_path }}/secrets"
-matrix_synapse_dh_path: "/opt/synapse/tls/{{ matrix_server_name }}.dh"
+matrix_synapse_dh_path: "{{ matrix_synapse_base_path }}/tls/{{ matrix_server_name }}.dh"
 matrix_synapse_baseurl: "https://{{ matrix_server_name }}"
-matrix_synapse_signing_key_path: "/opt/synapse/tls/{{ matrix_server_name }}.signing.key"
+matrix_synapse_signing_key_path: "{{ matrix_synapse_base_path }}/tls/{{ matrix_server_name }}.signing.key"
 matrix_synapse_version: "v0.99.1.1"
 matrix_synapse_log_days_keep: 30
 matrix_synapse_skip_tls: false
-matrix_synapse_pid_file: /opt/synapse/synapse.pid
+matrix_synapse_pid_file: "{{ matrix_synapse_base_path }}/synapse.pid"
 matrix_synapse_docker_ports: ["8008:8008", "8448:8448"]
 matrix_synapse_docker_labels: {}
