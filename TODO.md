@@ -1,1 +1,1 @@
-* Handle the random string secrets (macaroon, registration key) to ensure idempotense)
+* Make synapse base path configurable instead of hard coded to /opt/synapse
