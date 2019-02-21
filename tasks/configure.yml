@@ -9,7 +9,7 @@
 
 - name: create directory
   file:
-    path: /opt/synapse
+    path: "{{ matrix_synapse_base_path }}"
     state: directory
     owner: synapse
     group: synapse
@@ -46,12 +46,12 @@
   loop:
     - "{{ matrix_synapse_config.media_store_path }}"
     - "{{ matrix_synapse_config.uploads_path }}"
-    - /opt/synapse/tls
+    - "{{ matrix_synapse_base_path }}/tls"
 
 - name: Deploy config
   copy:
     content: "{{ matrix_synapse_config | to_nice_yaml }}"
-    dest: "/opt/synapse/homeserver.yaml"
+    dest: "{{ matrix_synapse_base_path }}/homeserver.yaml"
     owner: synapse
     group: synapse
   notify:

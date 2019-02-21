@@ -21,7 +21,7 @@
 - name: Deploy log config
   copy:
     src: "log.config"
-    dest: "/opt/synapse/log.config"
+    dest: "{{ matrix_synapse_base_path }}/log.config"
     owner: synapse
     group: synapse
   notify:
