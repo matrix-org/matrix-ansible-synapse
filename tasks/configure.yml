@@ -9,16 +9,37 @@
 
 - name: create directory
   file:
-    name: /opt/synapse
+    path: /opt/synapse
     state: directory
     owner: synapse
     group: synapse
   tags:
     - pre_install
 
+- name: Create secrets directory
+  file:
+    path: "{{ matrix_synapse_secrets_path }}"
+    state: directory
+    owner: synapse
+    group: synapse
+  tags:
+    - pre_install
+
+- name: Generate secrets
+  include_tasks: generate_secret.yml
+  loop:
+    - file: "macaroon.key"
+      var: "macaroon_file"
+    - file: "registration.key"
+      var: "registration_shared_secret_file"
+    - file: "form.key"
+      var: "form_secret_file"
+  loop_control:
+    loop_var: secret
+
 - name: Create directory for media storage
   file:
-    name: "{{ item }}"
+    path: "{{ item }}"
     state: directory
     owner: synapse
     group: synapse
