@@ -29,7 +29,7 @@ The following should be present on the target system
 
 | Name | Value | Description |
 | :--- | :--- | :---  |
-| matrix_synapse_base_path | "/opt/synapse" | _This is not yet consistently used. **DO NOT RELY ON IT**. Lookout for future releases_
+| matrix_synapse_base_path | "/opt/synapse" | 
 | matrix_synapse_secrets_path | "{{ matrix_synapse_base_path }}/secrets"
 | matrix_synapse_extra_config | _None_ | configuration parameters as given in the [synapse configuration file](https://github.com/matrix-org/synapse/tree/master/docs) | 
 | matrix_synapse_dh_path | "{{ matrix_synapse_base_path }}/tls/{{ matrix_server_name }}.dh" |
