@@ -30,7 +30,7 @@
           - psycopg2-binary
           - mock
         virtualenv: "{{ matrix_synapse_base_path }}/env"
-        virtualenv_python: python2.7
+        virtualenv_python: "python{{ matrix_synapse_python_version }}"
         extra_args: --upgrade
       tags:
         - pre_install
@@ -49,7 +49,7 @@
       pip:
         name: "{{ matrix_synapse_base_path }}/synapse"
         virtualenv: "{{ matrix_synapse_base_path }}/env"
-        virtualenv_python: python2.7
+        virtualenv_python: "python{{ matrix_synapse_python_version }}"
       when: clone_synapse.changed
       tags:
         - skip_ansible_lint # skip when clause
@@ -59,7 +59,7 @@
 - name: install synapse with docker
   docker_container:
     name: synapse
-    image: "docker.io/matrixdotorg/synapse:{{ matrix_synapse_version }}"
+    image: "docker.io/matrixdotorg/synapse:{{ matrix_synapse_version }}-py{{ matrix_synapse_python_version }}"
     ports: "{{ matrix_synapse_docker_ports }}"
     labels: "{{ matrix_synapse_docker_labels }}"
     restart_policy: unless-stopped
