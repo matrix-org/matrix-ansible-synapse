@@ -5,7 +5,7 @@
       apt:
         name:
           - build-essential
-          - python2.7-dev
+          - "python{{ (matrix_synapse_python_version == '2') | ternary('2.7', '3') }}-dev"
           - libffi-dev
           - python-pip
           - python-setuptools
