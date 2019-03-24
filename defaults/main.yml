@@ -9,7 +9,6 @@ matrix_synapse_baseurl: "https://{{ matrix_server_name }}"
 matrix_synapse_signing_key_path: "{{ matrix_synapse_base_path }}/tls/{{ matrix_server_name }}.signing.key"
 matrix_synapse_version: "v0.99.2"
 matrix_synapse_log_days_keep: 30
-matrix_synapse_skip_tls: false
 matrix_synapse_pid_file: "{{ matrix_synapse_base_path }}/synapse.pid"
 matrix_synapse_docker_ports: ["8008:8008", "8448:8448"]
 matrix_synapse_docker_labels: {}

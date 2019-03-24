@@ -17,8 +17,8 @@ The following should be present on the target system
 | Name | Type | Description |
 | :--- | :--- | :--- |
 | **matrix_server_name** | __string__ | |
-| **matrix_synapse_tls_cert** | __string__ | server's TLS certificate chain (_when matrix_synapse_skip_tls not set_)|
-| **matrix_synapse_tls_key** | __string__ | server's TLS key (_when matrix_synapse_skip_tls not set_)|
+| **matrix_synapse_tls_cert** | __string__ | server's TLS certificate chain (_when matrix_synapse_extra_config.no_tls is set to true_)|
+| **matrix_synapse_tls_key** | __string__ | server's TLS key (_when matrix_synapse_extra_config.no_tls is set to true_)|
 | **matrix_synapse_report_stats** | __bool__ | Report the stats to matrix.org |
 | **matrix_synapse_pg_host** | __sting__ | postgresql server |
 | **matrix_synapse_pg_user** | __string__ | postgresql user |
