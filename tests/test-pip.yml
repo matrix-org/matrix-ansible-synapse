@@ -19,8 +19,8 @@
       delay: 2
 
     - name: Check returned api version
-      fail: >
-        Return value is not as expected {{ api_version }}
+      fail:
+        msg: "Return value {{ api_version }} is not as expected {{ matrix_synapse_version }}"
       when: matrix_synapse_version != "v"~(api_version.content | from_json).server.version
   roles:
     - role: geerlingguy.pip
