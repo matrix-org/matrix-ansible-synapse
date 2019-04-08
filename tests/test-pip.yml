@@ -6,11 +6,17 @@
     dbuser: synapse_user
     dbpw: synapse_password
   tasks:
+    - name: Flush handlers
+      meta: flush_handlers
+
     - name: Check if the api returns the correct version
       uri:
         url: "http://localhost:8008/_matrix/federation/v1/version"
         return_content: true
       register: api_version
+      until: api_version.status == 200
+      retries: 10
+      delay: 2
 
     - name: Check returned api version
       fail: >
