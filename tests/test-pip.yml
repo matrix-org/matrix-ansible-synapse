@@ -5,6 +5,17 @@
     dbname: synapse
     dbuser: synapse_user
     dbpw: synapse_password
+  tasks:
+    - name: Check if the api returns the correct version
+      uri:
+        url: "http://localhost:8008/_matrix/federation/v1/version"
+        return_content: true
+      register: api_version
+
+    - name: Check returned api version
+      fail: >
+        Return value is not as expected {{ api_version }}
+      when: matrix_synapse_version != "v"~(api_version.content | from_json).server.version
   roles:
     - role: geerlingguy.pip
     - role: geerlingguy.postgresql
