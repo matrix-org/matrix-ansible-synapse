@@ -54,6 +54,7 @@
       tags:
         - skip_ansible_lint # skip when clause
         - pre_install
+      notify: restart matrix-synapse
   when: matrix_synapse_deployment_method == "pip"
 
 - name: install synapse with docker
