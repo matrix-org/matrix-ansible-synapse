@@ -35,7 +35,7 @@ The following should be present on the target system
 | matrix_synapse_dh_path | "{{ matrix_synapse_base_path }}/tls/{{ matrix_server_name }}.dh" |
 | matrix_synapse_baseurl | "https://{{ matrix_server_name }}" |
 | matrix_synapse_signing_key_path | "{{ matrix_synapse_base_path }}/ssl/{{ matrix_server_name }}.signing.key" |
-| matrix_synapse_version | "v0.99.1.1" |
+| matrix_synapse_version | "v0.99.3" |
 | matrix_synapse_log_days_keep | 30 |
 | matrix_synapse_deployment_method | pip | Either pip or docker [¹](#footnote_1) |
 | matrix_synapse_supervision_method | systemd | Either systemd, runit or docker [¹](#footnote_1) |
