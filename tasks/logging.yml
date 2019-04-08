@@ -1,14 +1,14 @@
 ---
 - name: create logging folder
   file:
-    name: /var/log/synapse/
+    name: "{{ matrix_synapse_log_dir }}"
     state: directory
     owner: synapse
     group: synapse
 
 - name: copy syslog config
-  copy:
-    src: matrix_synapse.conf
+  template:
+    src: syslog-synapse.conf.j2
     dest: /etc/rsyslog.d/matrix_synapse.conf
     owner: root
   notify: restart rsyslog
@@ -17,6 +17,7 @@
   template:
     src: logrotate.j2
     dest: /etc/logrotate.d/matrix_synapse
+    owner: root
 
 - name: Deploy log config
   copy:
