@@ -64,6 +64,8 @@
     ports: "{{ matrix_synapse_docker_ports }}"
     labels: "{{ matrix_synapse_docker_labels }}"
     restart_policy: unless-stopped
+    recreate: true
+    pull: true
     entrypoint: "python"
     command:
       - "-m"
