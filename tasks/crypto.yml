@@ -1,5 +1,5 @@
 ---
-- name: Install singedjson
+- name: Install signedjson
   pip:
     name: signedjson
 
