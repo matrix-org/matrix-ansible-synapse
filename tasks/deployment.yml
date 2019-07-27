@@ -4,17 +4,17 @@
     - name: Install dependencies
       apt:
         name:
+          - git
           - build-essential
-          - "python{{ (matrix_synapse_python_version == '2') | ternary('2.7', '3') }}-dev"
-          - libffi-dev
+          - python3-dev
+          - python-virtualenv
           - python-pip
           - python-setuptools
           - sqlite3
+          - libffi-dev
           - libssl-dev
-          - python-virtualenv
           - libjpeg-dev
           - libxslt1-dev
-          - git
           - libpq-dev
         state: present
         cache_valid_time: 1800
@@ -26,11 +26,8 @@
         name:
           - pip
           - setuptools
-          - lxml
-          - psycopg2-binary
-          - mock
         virtualenv: "{{ matrix_synapse_base_path }}/env"
-        virtualenv_python: "python{{ matrix_synapse_python_version }}"
+        virtualenv_python: python3
         extra_args: --upgrade
       tags:
         - pre_install
@@ -47,9 +44,8 @@
 
     - name: Install Synapse
       pip:
-        name: "{{ matrix_synapse_base_path }}/synapse"
+        name: "{{ matrix_synapse_base_path }}/synapse[matrix-synapse-ldap3,postgres,resources.consent,acme,url_preview]"
         virtualenv: "{{ matrix_synapse_base_path }}/env"
-        virtualenv_python: "python{{ matrix_synapse_python_version }}"
       when: clone_synapse.changed
       tags:
         - skip_ansible_lint # skip when clause
@@ -60,7 +56,7 @@
 - name: install synapse with docker
   docker_container:
     name: synapse
-    image: "docker.io/matrixdotorg/synapse:{{ matrix_synapse_version }}-py{{ matrix_synapse_python_version }}"
+    image: "docker.io/matrixdotorg/synapse:{{ matrix_synapse_version }}"
     ports: "{{ matrix_synapse_docker_ports }}"
     labels: "{{ matrix_synapse_docker_labels }}"
     restart_policy: unless-stopped
