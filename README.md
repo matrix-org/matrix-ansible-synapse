@@ -1,3 +1,12 @@
+# Update 2019-07-26
+
+Unfortunately this repository is unmaintained. Admins looking for a useful ansible role
+for Synapse might like to consider the one written by @spantaleev: 
+https://github.com/spantaleev/matrix-docker-ansible-deploy/tree/master/roles/matrix-synapse.
+
+
+-----
+
 matrix-synapse
 ==============
 
