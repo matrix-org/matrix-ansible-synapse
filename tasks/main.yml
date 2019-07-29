@@ -1,9 +1,16 @@
 ---
-- name: deploy synapse
-  import_tasks: deployment.yml
+- name: check that sypervision and deployment are compatible
+  fail:
+    msg: "Either both or neither of deployment and supervision method should be docker."
+  when: (matrix_synapse_supervision_method == "docker" and matrix_synapse_deployment_method != "docker") or
+        (matrix_synapse_deployment_method == "docker" and matrix_synapse_supervision_method != "docker")
 
 - name: configure synapse
   import_tasks: configure.yml
 
+- name: deploy synapse
+  import_tasks: deployment.yml
+
 - name: configure service
   import_tasks: systemd.yml
+  when: matrix_synapse_supervision_method == "systemd"

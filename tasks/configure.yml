@@ -1,93 +1,66 @@
 ---
+- name: create user
+  user:
+    name: synapse
+    state: present
+  register: synapse_user
+  tags:
+    - pre_install
+
+- name: create directory
+  file:
+    path: "{{ matrix_synapse_base_path }}"
+    state: directory
+    owner: synapse
+    group: synapse
+  tags:
+    - pre_install
+
+- name: Create secrets directory
+  file:
+    path: "{{ matrix_synapse_secrets_path }}"
+    state: directory
+    owner: synapse
+    group: synapse
+  tags:
+    - pre_install
+
+- name: Generate secrets
+  include_tasks: generate_secret.yml
+  loop:
+    - file: "macaroon.key"
+      var: "macaroon_file"
+    - file: "registration.key"
+      var: "registration_shared_secret_file"
+    - file: "form.key"
+      var: "form_secret_file"
+  loop_control:
+    loop_var: secret
+
 - name: Create directory for media storage
   file:
-    name: /opt/synapse/media_store
+    path: "{{ item }}"
     state: directory
     owner: synapse
     group: synapse
-
-- name: Create directory for uploads
-  file:
-    name: /opt/synapse/uploads
-    state: directory
-    owner: synapse
-    group: synapse
-
-- name: Create directory for SSL files
-  file:
-    name: /opt/synapse/ssl
-    state: directory
-    owner: synapse
-    group: synapse
-
-- name: Create signing key
-  shell: /opt/synapse/env/bin/python -c "from signedjson import key; file = open('/opt/synapse/ssl/{{ matrix_synapse_domain}}.signing.key','w'); key.write_signing_keys(file, [key.generate_signing_key('first')]); file.close()"
-  args:
-    creates: /opt/synapse/ssl/{{ matrix_synapse_domain }}.signing.key
-  become: true
-  become_user: synapse
-  notify:
-    - "restart synapse"
-
-- name: create logging folder
-  file:
-    name: /var/log/synapse/
-    state: directory
-    owner: synapse
-    group: synapse
-
-- name: copy syslog config
-  copy:
-    src: matrix_synapse.conf
-    dest: /etc/rsyslog.d/matrix_synapse.conf
-    owner: root
-  notify: restart rsyslog
-
-- name: template logrotate config
-  template:
-    src: logrotate.j2
-    dest: /etc/logrotate.d/matrix_synapse
-
-- name: Deploy log config
-  template:
-    src: "log.config.j2"
-    dest: "/opt/synapse/log.config"
-    owner: synapse
-    group: synapse
-  notify:
-    - "restart synapse"
+  loop:
+    - "{{ matrix_synapse_config.media_store_path }}"
+    - "{{ matrix_synapse_config.uploads_path }}"
+    - "{{ matrix_synapse_base_path }}/tls"
 
 - name: Deploy config
-  template:
-    src: "homeserver.yaml.j2"
-    dest: "/opt/synapse/homeserver.yaml"
+  copy:
+    content: "{{ matrix_synapse_config | to_nice_yaml }}"
+    dest: "{{ matrix_synapse_base_path }}/homeserver.yaml"
     owner: synapse
     group: synapse
   notify:
-    - "restart synapse"
+    - "restart matrix-synapse"
 
-- name: ensure hook directory available
-  file:
-    name: /etc/letsencrypt/renewal-hooks/deploy/
-    state: directory
+- name: Configure logging
+  import_tasks: logging.yml
+  when: matrix_synapse_supervision_method == "systemd"
+  # TODO: Figure out how to make sure that logging ends up in rsyslog no matter what system we run on
 
-- name: template ssl post-renewal copier into place
-  template:
-    src: 01-synapse.j2
-    dest: /etc/letsencrypt/renewal-hooks/deploy/01-synapse
-    mode: 0700
-  register: ssl_renewal
-
-- name: run post-renewal copier
-  command: /etc/letsencrypt/renewal-hooks/deploy/01-synapse
-  when: ssl_renewal.changed
-  tags:
-    - skip_ansible_lint # because of the when clause
-
-- name: create DH parameters
-  command: openssl dhparam -out ssl/{{ matrix_synapse_domain }}.dh 2048
-  args:
-    creates: /opt/synapse/ssl/{{ matrix_synapse_domain }}.dh
-    chdir: /opt/synapse
-  become_user: synapse
-  become: true
+- name: Create certificates
+  include_tasks: crypto.yml

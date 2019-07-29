@@ -1,38 +1,64 @@
-matrix-synapse
-==============
+# matrix-synapse
 
 Install a matrix synapse server.
 
-Requirements
-------------
+## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The following should be present on the target system
+* `pip`
+* `systemd`
+* `rsyslogd`
+* `logrotate`
 
-Role Variables
---------------
+## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+### Mandatory Variables
 
-Dependencies
-------------
+| Name | Type | Description |
+| :--- | :--- | :--- |
+| **matrix_server_name** | __string__ | |
+| **matrix_synapse_tls_cert** | __string__ | server's TLS certificate chain (_when matrix_synapse_extra_config.no_tls is set to true_)|
+| **matrix_synapse_tls_key** | __string__ | server's TLS key (_when matrix_synapse_extra_config.no_tls is set to true_)|
+| **matrix_synapse_report_stats** | __bool__ | Report the stats to matrix.org |
+| **matrix_synapse_pg_host** | __sting__ | postgresql server |
+| **matrix_synapse_pg_user** | __string__ | postgresql user |
+| **matrix_synapse_pg_pass** | __string__ | postgresql user's password |
+| **matrix_synapse_pg_db** | __string__ | postgresql database |
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+### Optional Variables
 
-Example Playbook
-----------------
+| Name | Value | Description |
+| :--- | :--- | :---  |
+| matrix_synapse_base_path | "/opt/synapse" | 
+| matrix_synapse_secrets_path | "{{ matrix_synapse_base_path }}/secrets"
+| matrix_synapse_extra_config | _None_ | configuration parameters as given in the [synapse configuration file](https://github.com/matrix-org/synapse/tree/master/docs) | 
+| matrix_synapse_dh_path | "{{ matrix_synapse_base_path }}/tls/{{ matrix_server_name }}.dh" |
+| matrix_synapse_baseurl | "https://{{ matrix_server_name }}" |
+| matrix_synapse_signing_key_path | "{{ matrix_synapse_base_path }}/ssl/{{ matrix_server_name }}.signing.key" |
+| matrix_synapse_version | "v1.0.0" |
+| matrix_synapse_log_days_keep | 30 |
+| matrix_synapse_deployment_method | pip | Either pip or docker [¹](#footnote_1) |
+| matrix_synapse_supervision_method | systemd | Either systemd, runit or docker [¹](#footnote_1) |
+| matrix_synapse_python_version | 3 | Default python version (2, 3) to be used |
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+<a name="footnote_1">¹</a>: Docker must be used for both or neither deployment and supervision
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+## Dependencies
 
-License
--------
+__None__.
+
+## Example Playbook
+
+```yaml
+#TODO: Add example
+```
+
+## License
 
 Apache 2.0
 
-Author Information
-------------------
+# Author Information
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+* Michael Kaye
+* Jan Christian Grünhage
+* Emmanouil Kampitakis

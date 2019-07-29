@@ -1,0 +1,32 @@
+---
+- name: Install signedjson
+  pip:
+    name: signedjson
+
+- name: Create signing key
+  matrix_signing_key:
+    path: "{{ matrix_synapse_config.signing_key_path }}"
+  notify:
+    - "restart matrix-synapse"
+
+- name: Write server's certificate and private key
+  block:
+    - name: create DH parameters
+      openssl_dhparam:
+        path: "{{ matrix_synapse_dh_path }}"
+        owner: synapse
+    - name: Write certificate
+      copy:
+        content: "{{ matrix_synapse_tls_cert }}"
+        dest: "{{ matrix_synapse_config.tls_certificate_path }}"
+        owner: synapse
+        group: synapse
+        mode: "0644"
+    - name: Write keyfile
+      copy:
+        content: "{{ matrix_synapse_tls_key }}"
+        dest: "{{ matrix_synapse_config.tls_private_key_path }}"
+        owner: synapse
+        group: synapse
+        mode: "0600"
+  when: not matrix_synapse_config.no_tls

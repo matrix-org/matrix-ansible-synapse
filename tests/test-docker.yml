@@ -1,0 +1,52 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Flush handlers
+      meta: flush_handlers
+
+    - name: Check if the api returns the correct version
+      uri:
+        url: "http://localhost:8008/_matrix/federation/v1/version"
+        return_content: true
+      register: api_version
+      until: api_version.status == 200
+      retries: 10
+      delay: 2
+
+    - name: Check returned api version
+      fail: >
+        Return value is not as expected {{ api_version }}
+      when: matrix_synapse_version != "v"~(api_version.content | from_json).server.version
+  vars:
+    dbname: synapse
+    dbuser: synapse_user
+    dbpw: synapse_password
+    matrix_synapse_deployment_method: docker
+    matrix_synapse_supervision_method: docker
+  roles:
+    - role: geerlingguy.pip
+      pip_install_packages:
+        - name: docker
+    - role: geerlingguy.docker
+    - role: geerlingguy.postgresql
+      postgresql_databases:
+        - name: "{{ dbname }}"
+      postgresql_users:
+        - name: "{{ dbuser }}"
+          password: "{{ dbpw }}"
+      postgresql_global_config_options:
+        - option: listen_addresses
+          value: "172.17.0.1"
+      postgresql_hba_entries:
+        - { type: local, database: all, user: all, auth_method: trust }
+        - { type: host, database: "{{ dbname }}", user: "{{ dbuser }}", address: "172.17.0.1/16", auth_method: md5 }
+    - role: matrix-ansible-synapse
+      matrix_server_name: localhost
+      matrix_synapse_report_stats: false
+      matrix_synapse_pg_host: 172.17.0.1
+      matrix_synapse_pg_user: "{{ dbuser }}"
+      matrix_synapse_pg_pass: "{{ dbpw }}"
+      matrix_synapse_pg_db: "{{ dbname }}"
+      matrix_synapse_extra_config:
+        no_tls: true

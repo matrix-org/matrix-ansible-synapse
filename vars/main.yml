@@ -1,0 +1,140 @@
+---
+matrix_synapse_config: "{{ matrix_synapse_base_config | combine(matrix_synapse_extra_config, recursive=True) }}"
+matrix_synapse_base_config:
+  server_name: "{{ matrix_server_name }}"
+  tls_certificate_path: "{{ matrix_synapse_base_path }}/tls/{{ matrix_server_name }}.crt"
+  tls_private_key_path: "{{ matrix_synapse_base_path }}/tls/{{ matrix_server_name }}.key"
+  acme:
+    enabled: false 
+    url: https://acme-v01.api.letsencrypt.org/directory
+    port: 80
+    bind_addresses: ['::', '0.0.0.0']
+    reprovision_threshold: 30
+  no_tls: false
+  tls_fingerprints: []
+  pid_file: "{{ matrix_synapse_base_path }}/synapse.pid"
+  soft_file_limit: 0
+  use_presence: true
+  listeners:
+    - port: 8448
+      bind_addresses:
+        - '::'
+        - '0.0.0.0'
+      type: http
+      tls: true
+      x_forwarded: false
+      resources:
+        - names: [client]
+          compress: true
+        - names: [federation]
+          compress: false
+    - port: 8008
+      tls: false
+      bind_addresses:
+        - '::'
+        - '0.0.0.0'
+      type: http
+      x_forwarded: false
+      resources:
+        - names: [client]
+          compress: true
+        - names: [federation]
+          compress: false
+  database:
+    name: "psycopg2"
+    args:
+      user: "{{ matrix_synapse_pg_user }}"
+      password: "{{ matrix_synapse_pg_pass }}"
+      database: "{{ matrix_synapse_pg_db }}"
+      host: "{{ matrix_synapse_pg_host }}"
+      cp_min: 5
+      cp_max: 10
+  event_cache_size: "10K"
+  rc_messages_per_second: 0.2
+  rc_message_burst_count: 10.0
+  federation_rc_window_size: 1000
+  federation_rc_sleep_limit: 10
+  federation_rc_sleep_delay: 500
+  federation_rc_reject_limit: 50
+  federation_rc_concurrent: 3
+  media_store_path: "{{ matrix_synapse_base_path }}/media_store"
+  uploads_path: "{{ matrix_synapse_base_path }}/uploads"
+  max_upload_size: "23M"
+  max_image_pixels: "32M"
+  dynamic_thumbnails: false
+  thumbnail_sizes:
+  - width: 32
+    height: 32
+    method: crop
+  - width: 96
+    height: 96
+    method: crop
+  - width: 320
+    height: 240
+    method: scale
+  - width: 640
+    height: 480
+    method: scale
+  - width: 800
+    height: 600
+    method: scale
+  url_preview_enabled: true 
+  url_preview_ip_range_blacklist:
+  - '127.0.0.0/8'
+  - '10.0.0.0/8'
+  - '172.16.0.0/12'
+  - '192.168.0.0/16'
+  - '100.64.0.0/10'
+  - '169.254.0.0/16'
+  - '::1/128'
+  - 'fe80::/64'
+  - 'fc00::/7'
+  url_preview_url_blacklist:
+  - username: '*'
+  - netloc: 'google.com'
+  - netloc: '*.google.com'
+  - netloc: 'twitter.com'
+  - netloc: '*.twitter.com'
+  - netloc: 't.co'
+  - netloc: '*.t.co'
+  max_spider_size: "10M"
+  enable_registration: False
+  registration_shared_secret: >
+    "{{ registration_shared_secret_file.content | b64decode }}"
+  form_secret: "{{ form_secret_file.content | b64decode }}"
+  bcrypt_rounds: 12
+  allow_guest_access: False
+  trusted_third_party_id_servers:
+      - matrix.org
+      - vector.im
+  autocreate_auto_join_rooms: true
+  enable_metrics: False
+  report_stats: "{{ matrix_synapse_report_stats }}" 
+  room_invite_state_types:
+      - "m.room.join_rules"
+      - "m.room.canonical_alias"
+      - "m.room.avatar"
+      - "m.room.name"
+  app_service_config_files: []
+  track_appservice_user_ips: False
+  macaroon_secret_key: "{{ macaroon_file.content | b64decode }}"
+  expire_access_token: False
+  signing_key_path: "{{ matrix_synapse_signing_key_path }}"
+  old_signing_keys: {}
+  key_refresh_interval: "1d" # 1 Day.
+  # TODO: More servers should be added
+  perspectives:
+    servers:
+      "matrix.org":
+        verify_keys:
+          "ed25519:auto":
+            key: "Noi6WqcDj0QmPxCNQqgezwTlBKrfqehY1u2FyWP9uYw"
+  password_config:
+    enabled: true
+  push:
+    include_content: false 
+  enable_group_creation: true
+  alias_creation_rules:
+      - user_id: "*"
+        alias: "*"
+        action: allow

@@ -1,0 +1,24 @@
+---
+# -*- coding: utf-8 -*-
+
+before_script:
+  - apt-get update -qy
+  - apt-get install -y python-dev python-pip
+  - git submodule update --init
+  - pip install --upgrade ansible ansible-lint
+  - ansible --version
+  - ansible-lint --version
+
+stages:
+  - ansible-lint
+  - ansible-syntax-check
+
+ansible-lint-pip:
+  stage: ansible-lint
+  script:
+    - ansible-lint tests/test-pip.yml
+
+ansible-lint-docker:
+  stage: ansible-lint
+  script:
+    - ansible-lint tests/test-docker.yml

@@ -1,3 +1,4 @@
+{{ ansible_managed | comment }}
 /var/log/matrix_synapse/matrix_synapse.log {
     daily
     rotate {{ matrix_synapse_log_days_keep }}
