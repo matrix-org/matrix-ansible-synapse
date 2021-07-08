@@ -74,4 +74,6 @@
   tags:
     - skip_ansible_lint # skip when clause
     - pre_install
+  notify:
+    - "restart matrix-synapse"
 
